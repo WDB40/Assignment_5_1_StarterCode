@@ -1,0 +1,52 @@
+﻿@model CIS174_TestCoreApp.Models.Student
+
+@{
+    ViewData["Title"] = "Index";
+
+    Student WesBrown = new Student("Wes", "Brown", 80);
+    Student ChuckWallace = new Student("Chuck", "Wallace", 90.5);
+    Student JennySteward = new Student("Jenny", "Steward", 99.9);
+    Student BarbaraFranklin = new Student("Barbara", "Franklin", 88.3);
+
+    List<Student> students = new List<Student>();
+    students.Add(WesBrown);
+    students.Add(ChuckWallace);
+    students.Add(JennySteward);
+    students.Add(BarbaraFranklin);
+
+    int accessLevel = (int) @ViewData["accessLevel"]; 
+}
+
+<h2>Printing Student Info</h2>
+@if(accessLevel < 1 || accessLevel > 10){
+    <h3>Invalid Access</h3>
+}
+
+else if(accessLevel <= 2)
+{
+    <h3>You do not have a sufficient access level to view this data.</h3>
+}
+
+else
+{
+    @if(accessLevel >= 8) { <h3>Hello, Admin.</h3>}
+
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            @if(accessLevel >= 8) { <th>Grade</th>}
+        </tr>
+
+        @foreach (Student student in students)
+        {
+            <tr>
+                <td>@student.FirstName</td>
+                <td>@student.LastName</td>
+                @if(accessLevel >= 8) { <td>@student.Grade</td>}
+            </tr>
+        }
+    </table>
+
+}
+

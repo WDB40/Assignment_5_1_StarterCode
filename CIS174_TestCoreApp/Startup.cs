@@ -57,6 +57,11 @@ namespace CIS174_TestCoreApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                    name: "student",
+                    template: "student/{id:int:min(1):max(10)}",
+                    defaults: new { Controller = "Student", Action = "Index" });
             });
         }
     }
