@@ -38,10 +38,14 @@
                         <ul class="dropdown-menu">
                             <li><a asp-area="" asp-controller="Person" asp-action="Index">Assignment 5.1</a></li>
                             <li><a asp-area="" asp-route="student" asp-route-id="1">Assignment 6.1</a></li>
+                            <li><a asp-area="" asp-controller="SignUp" asp-action="Index">Assignment 7.1</a></li>
                         </ul>
                     </li>
                 </ul>
             </div>
+            <environment exclude="Testing,Staging">
+                <div class="warning">You are currently in a testing environment.</div>
+            </environment>
         </div>
     </nav>
 
