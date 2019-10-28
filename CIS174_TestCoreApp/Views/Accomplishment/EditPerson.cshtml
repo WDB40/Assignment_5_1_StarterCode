@@ -7,12 +7,7 @@
 <h2>Edit Person</h2>
 
 <form asp-controller="Accomplishment" asp-action="EditPerson">
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="button" class="btn btn-success" id="addAccomplishment">Add accomplishment</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </div>
+
 
     <input type="hidden" asp-for="PersonID" />
 
@@ -44,6 +39,12 @@
         <label asp-for="State"></label>
         <input class="form-control" asp-for="State" />
         <span asp-validation-for="State"></span>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary">Update</button>
+        </div>
     </div>
 
 </form>
