@@ -1,0 +1,64 @@
+﻿@model CIS174_TestCoreApp.Models.PersonAccomplishmentCommand
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Person Details</h2>
+
+<div>
+    <h4>Person</h4>
+    <hr />
+    <div>
+        <p>
+            <a asp-action="EditPerson" asp-route-id="@Model.PersonID" class="btn btn-primary">Edit</a>
+            <a asp-action="DeletePerson" asp-route-id="@Model.PersonID" class="btn btn-danger">Delete</a>
+        </p>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthdate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Birthdate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+    </dl>
+
+
+    <dl>
+        @foreach (var item in Model.Accomplishments)
+    {
+        <dt>@item.Name</dt>
+        <dd>@item.DateOfAccomplishment</dd>
+    }
+    </dl>
+</div>
+<div>
+    
+
+    <a asp-action="AllPersons">Back to List</a>
+</div>

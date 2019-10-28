@@ -1,0 +1,49 @@
+﻿@model IEnumerable<CIS174_TestCoreApp.Models.PersonAccomplishmentCommand>
+
+@{
+    ViewData["Title"] = "AllPersons";
+}
+
+<h2>View All Persons</h2>
+
+<p>
+    <a asp-action="Index" class="btn btn-success">Create Person</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                Number of Accomplishments
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+           
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Accomplishments.Count)
+            </td>
+           
+            <td>
+                <a asp-action="Details" asp-route-id="@item.PersonID">View</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

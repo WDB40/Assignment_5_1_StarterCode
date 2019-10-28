@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CIS174_TestCoreApp.Models;
+using CIS174_TestCoreApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,16 +17,32 @@ namespace CIS174_TestCoreApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
+            HostingEnvironment = environment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment HostingEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //var connString = Configuration.GetConnectionString("DefaultConnection");
+            var connString = "";
+
+            if (HostingEnvironment.IsDevelopment())
+            {
+                connString = Configuration["ConnectionString:DefaultConnection"];
+            }
+            else
+            {
+                connString = Configuration["ConnectionString:AzureConnection"];
+            }
+            services.AddDbContext<AccomplishmentDbContext>(
+                options => options.UseSqlServer(connString));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -36,6 +55,8 @@ namespace CIS174_TestCoreApp
                 options.RespectBrowserAcceptHeader = true; 
             })
                 .AddXmlSerializerFormatters();
+
+            services.AddScoped<PersonAccomplishmentDBHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

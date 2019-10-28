@@ -1,0 +1,107 @@
+﻿@model PersonAccomplishmentCommand
+
+@{
+    ViewData["Title"] = "Index";
+    int count = 0;
+    if(Model != null && Model.Accomplishments != null)
+    {
+        count = Model.Accomplishments.Count;
+    }
+}
+
+<h2>Create Person</h2>
+
+<a asp-area="" asp-controller="Accomplishment" asp-action="AllPersons">View All</a>
+
+<form asp-controller="Accomplishment" asp-action="Create">
+
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input class="form-control" asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <input class="form-control" asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Birthdate"></label>
+        <input class="form-control" asp-for="Birthdate" />
+        <span asp-validation-for="Birthdate"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="City"></label>
+        <input class="form-control" asp-for="City" />
+        <span asp-validation-for="City"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="State"></label>
+        <input class="form-control" asp-for="State" />
+        <span asp-validation-for="State"></span>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="button" class="btn btn-success" id="addAccomplishment">Add accomplishment</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @* Creating sub-items like this at the same time as the parent is a PITA unfortunately - hacky JS ensues for now! *@
+        <table class="table table-striped" id="accomplishments">
+            <thead>
+                <tr>
+                    <th>Accomplishment</th>
+                    <th>Date Of</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < count; i++)
+                {
+                    var accomplishment = Model.Accomplishments[i];
+                    <tr>
+                        <td>
+                            <input asp-for="Accomplishments[i].Name" />
+                            <span asp-validation-for="Accomplishments[i].Name" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="Accomplishments[i].DateOfAccomplishment" />
+                            <span asp-validation-for="Accomplishments[i].DateOfAccomplishment" class=" text-danger"></span>
+                        </td>
+                        <td>
+                            <a href="#" class="remove">Remove</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        var accomplishments = $('#accomplishments tbody');
+        $("#addAccomplishment").click(function () {
+            var rowNo = accomplishments.find('tr').length;
+            var template =
+                '<tr>' +
+                '<td><input name="Accomplishments[' + rowNo + '].Name" id="Accomplishments' + rowNo + '_Name" /></td>' +
+                '<td><input name="Accomplishments[' + rowNo + '].DateOfAccomplishment" id="Accomplishments' + rowNo + 'DateOfAccomplishment" /></td>' +
+                '</tr>';
+            accomplishments.append(template);
+        });
+        accomplishments.on('click', '.remove', function (e) {
+            $(this).closest('tr').remove();
+        });
+    </script>
+}

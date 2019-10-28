@@ -19,6 +19,12 @@ namespace CIS174_TestCoreApp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(AddAppConfiguration)
                 .UseStartup<Startup>();
+
+        public static void AddAppConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder config)
+        {
+            config.AddJsonFile("appsettings.json", optional: true);
+        }
     }
 }
