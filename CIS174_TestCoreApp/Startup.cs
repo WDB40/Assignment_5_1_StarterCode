@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CIS174_TestCoreApp.Filters;
 using CIS174_TestCoreApp.Models;
 using CIS174_TestCoreApp.Services;
 using Microsoft.AspNetCore.Builder;
@@ -40,7 +41,11 @@ namespace CIS174_TestCoreApp
             {
                 connString = Configuration["ConnectionString:AzureConnection"];
             }
+
             services.AddDbContext<AccomplishmentDbContext>(
+                options => options.UseSqlServer(connString));
+
+            services.AddDbContext<ErrorLogDbContext>(
                 options => options.UseSqlServer(connString));
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -52,7 +57,8 @@ namespace CIS174_TestCoreApp
 
 
             services.AddMvc(options => {
-                options.RespectBrowserAcceptHeader = true; 
+                options.RespectBrowserAcceptHeader = true;
+                options.Filters.Add<ErrorLogFilter>();
             })
                 .AddXmlSerializerFormatters();
 
@@ -68,7 +74,7 @@ namespace CIS174_TestCoreApp
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                //app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 

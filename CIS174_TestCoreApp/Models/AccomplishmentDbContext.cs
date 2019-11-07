@@ -8,7 +8,7 @@ namespace CIS174_TestCoreApp.Models
 {
     public class AccomplishmentDbContext : DbContext
     {
-        public AccomplishmentDbContext(DbContextOptions options) : base(options) { }
+        public AccomplishmentDbContext(DbContextOptions<AccomplishmentDbContext> options) : base(options) { }
 
         public DbSet<Person> Persons { get; set; }
     }
