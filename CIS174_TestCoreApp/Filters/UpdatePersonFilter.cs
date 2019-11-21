@@ -2,6 +2,7 @@
 using CIS174_TestCoreApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace CIS174_TestCoreApp.Filters
     {
 
         PersonAccomplishmentDBHelper _dBHelper;
+        private readonly ILogger _log;
 
-        public UpdatePersonFilter(PersonAccomplishmentDBHelper dBHelper)
+        public UpdatePersonFilter(PersonAccomplishmentDBHelper dBHelper, ILogger<UpdatePersonFilter> log)
         {
             _dBHelper = dBHelper;
+            _log = log;
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
@@ -32,11 +35,13 @@ namespace CIS174_TestCoreApp.Filters
 
             if(oldPerson == null)
             {
+                _log.LogWarning("The following Person ID was not found: {personID}", person.PersonID);
                 context.Result = new BadRequestObjectResult("Person not found.");
 
             }
             else if(!person.FirstName.Equals(oldPerson.FirstName) || !person.LastName.Equals(oldPerson.LastName))
             {
+                _log.LogWarning("A user attempted to updated the following name: {lastName}, {firstName}", person.LastName, person.FirstName);
                 context.Result = new BadRequestObjectResult("Cannot update a person's name.");
             }
 

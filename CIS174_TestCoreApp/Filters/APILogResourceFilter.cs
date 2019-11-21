@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,10 +15,12 @@ namespace CIS174_TestCoreApp.Filters
 
         private readonly IConfiguration _config;
         private bool isEnabled;
+        private readonly ILogger _log;
 
-        public APILogResourceFilter(IConfiguration config)
+        public APILogResourceFilter(IConfiguration config, ILogger<APILogResourceFilter> log)
         {
             _config = config;
+            _log = log;
             Boolean.TryParse(_config["APILogging"], out isEnabled);
         }
 
@@ -25,7 +28,7 @@ namespace CIS174_TestCoreApp.Filters
         {
             if (isEnabled)
             {
-                Debug.WriteLine("Person API Controller Action Method Has Completed.");
+                _log.LogInformation("Person API Controller Action Method Has Completed.");
             }
         }
 
@@ -34,7 +37,7 @@ namespace CIS174_TestCoreApp.Filters
 
             if (isEnabled)
             {
-                Debug.WriteLine("Person API Controller Action Method Has Started.");
+                _log.LogInformation("Person API Controller Action Method Has Started.");
                 context.HttpContext.TraceIdentifier = Guid.NewGuid().ToString();
             }
         }

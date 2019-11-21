@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace CIS174_TestCoreApp
 {
@@ -19,7 +20,9 @@ namespace CIS174_TestCoreApp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .ConfigureAppConfiguration(AddAppConfiguration)
+                .ConfigureLogging(builder => builder.AddFile())
                 .UseStartup<Startup>();
 
         public static void AddAppConfiguration(WebHostBuilderContext hostingContext, IConfigurationBuilder config)

@@ -33,14 +33,16 @@ namespace CIS174_TestCoreApp
             //var connString = Configuration.GetConnectionString("DefaultConnection");
             var connString = "";
 
-            if (HostingEnvironment.IsDevelopment())
-            {
-                connString = Configuration["ConnectionString:DefaultConnection"];
-            }
-            else
-            {
-                connString = Configuration["ConnectionString:AzureConnection"];
-            }
+            //if (HostingEnvironment.IsDevelopment())
+            //{
+            //    connString = Configuration["ConnectionString:DefaultConnection"];
+            //}
+            //else
+            //{
+            //    connString = Configuration["ConnectionString:AzureConnection"];
+            //}
+
+            connString = Configuration["ConnectionString:AzureConnection"];
 
             services.AddDbContext<AccomplishmentDbContext>(
                 options => options.UseSqlServer(connString));
@@ -74,7 +76,7 @@ namespace CIS174_TestCoreApp
             }
             else
             {
-                //app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
